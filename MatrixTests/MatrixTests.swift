@@ -419,7 +419,7 @@ class MatrixTests: XCTestCase {
         XCTAssertFalse(matrix.isTransposed)
         matrix.transpose()
         XCTAssertTrue(matrix.isTransposed)
-        let _ = matrix.transposed()
+        matrix.transpose()
         XCTAssertFalse(matrix.isTransposed)
     }
     

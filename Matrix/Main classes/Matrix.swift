@@ -329,7 +329,7 @@ extension Matrix {
         let array = convert(matrix: matrix) { element in
             return element.description
         }
-        var theLongestStringInColumn = getDictionaryWithTheLongestStringInColumn(from: array)
+        let theLongestStringInColumn = getDictionaryWithTheLongestStringInColumn(from: array)
         
         var result = ""
         

@@ -6,10 +6,12 @@
 //  Copyright © 2019 OstapTyvonovych. All rights reserved.
 //
 
-public class Matrix<Element: Arithmetic & Descriptionable> {
+public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
     
     private var matrix: [[Element]]
     private(set) var size: (rows: Int, columns: Int)
+    
+    // MARK: - Initializers
 
     /**
      A Boolean value indicating whether the matrix is square.
@@ -29,8 +31,8 @@ public class Matrix<Element: Arithmetic & Descriptionable> {
          print(nonSquareMatrix.isSquare)
          print(squareMatrix.isSquare)
          
-         //false
-         //true
+         // false
+         // true
     */
     public var isSquare: Bool {
         return size.rows == size.columns
@@ -39,9 +41,10 @@ public class Matrix<Element: Arithmetic & Descriptionable> {
     /**
      A Boolean value indicating whether the matrix was transposed. Default value is `false`.
      
-     The property indicates the state of current instance of the matrix, That means it doesn't change when `transposed()` method called:
+     The property indicates the state of current instance of the matrix. That means it doesn't change when `transposed()` method called:
      
          let matrix = Matrix<Int>(string: string)!
+         print(matrix.isTransposed)
      
          let _ = matrix.transposed()
          print(matrix.isTransposed)
@@ -49,26 +52,40 @@ public class Matrix<Element: Arithmetic & Descriptionable> {
          matrix.transpose()
          print(matrix.isTransposed)
      
-         //false
-         //false
-         //true
+         // false
+         // false
+         // true
      
     */
     public var isTransposed = false
     
     public subscript(_ row: Int, _ column: Int) -> Element {
         get {
-            guard row >= 0 && row < size.rows else { print("Subscript: Row index out of range"); return Element.zero }
-            guard column >= 0 && column < size.columns else { print("Subscript: Column index out of range"); return Element.zero }
+            guard row >= 0 && row < size.rows else {
+                print("Subscript: Row index out of range")
+                return Element.zero
+            }
+            guard column >= 0 && column < size.columns else {
+                print("Subscript: Column index out of range")
+                return Element.zero
+            }
+            
             return matrix[row][column]
         }
         set {
-            guard row >= 0 && row < size.rows else { return print("Subscript: Row index out of range") }
-            guard column >= 0 && column < size.columns else { return print("Subscript: Column index out of range") }
+            guard row >= 0 && row < size.rows else {
+                print("Subscript: Row index out of range")
+                return
+            }
+            guard column >= 0 && column < size.columns else {
+                print("Subscript: Column index out of range")
+                return
+            }
+            
             matrix[row][column] = newValue
         }
     }
-    
+      
     
     /**
      Creates a matrix from an array of same-length arrays.
@@ -84,7 +101,7 @@ public class Matrix<Element: Arithmetic & Descriptionable> {
      
          print(spoiledMatrix)
      
-         //Prints "nil"
+         // Prints "nil"
      
      If everything went well, init will return a matrix where count of elements in all nested arrays will be a number of *columns* and count of nested arrays in main array will be number of *rows*.
      
@@ -98,17 +115,23 @@ public class Matrix<Element: Arithmetic & Descriptionable> {
          print("Number of rows: \(matrix.size.rows)")
          print("Number of columns: \(matrix.size.columns)")
      
-         //Number of rows: 3
-         //Number of columns: 4
+         // Number of rows: 3
+         // Number of columns: 4
      
      - Parameters:
          - arrayOfRows: Array where count of elements in all nested arrays will be a number of *columns* and count of nested arrays in main array will be number of *rows*.
     */
     public init?(array arrayOfRows: [[Element]]) {
-        if arrayOfRows.isEmpty { print("Array passed to init is empty"); return nil }
+        if arrayOfRows.isEmpty {
+            print("Array passed to init is empty")
+            return nil
+        }
         for i in 0..<arrayOfRows.count - 1 {
             let isRowsHaveDifferentSize = arrayOfRows[i].count != arrayOfRows[i+1].count
-            if isRowsHaveDifferentSize { print("Different size of rows"); return nil }
+            if isRowsHaveDifferentSize {
+                print("Different size of rows")
+                return nil
+            }
         }
         
         size.rows = arrayOfRows.count
@@ -221,9 +244,13 @@ public class Matrix<Element: Arithmetic & Descriptionable> {
     public convenience init?(string: String) {
         var string = string
         
-        if string.isEmpty { return nil }
+        if string.isEmpty {
+            return nil
+        }
         
-        guard !Matrix<Element>.isHaveForeignCharacters(string, compairingTo: .matrixLiteral) else { return nil }
+        guard !Matrix<Element>.isHaveForeignCharacters(string, compairingTo: .matrixLiteral) else {
+            return nil
+        }
         
         string = string.replacingOccurrences(of: "\t", with: " ")
 
@@ -319,9 +346,8 @@ public class Matrix<Element: Arithmetic & Descriptionable> {
         self.matrix = array
         self.size = (order, order)
     }
-}
-
-extension Matrix {
+    
+    // MARK: - Description
     
     /// A textual representation of this matrix.
     public var description: String {
@@ -356,9 +382,9 @@ extension Matrix {
         
         return result
     }
-}
-
-extension Matrix: Equatable {
+    
+    // MARK: - 'Equatable' conformance
+    
     public static func == (left: Matrix<Element>, right: Matrix<Element>) -> Bool {
         guard left.size == right.size else {
             print("Matrices have different size, therefore equality can't be checked; matrices must have same quantity of rows and columns")
@@ -377,9 +403,11 @@ extension Matrix: Equatable {
         }
         return result
     }
-}
-
-extension Matrix {
+    
+    // MARK: - Operations to be done with two matrices:
+        
+    // MARK: Addition operator
+    
     public static func + (left: Matrix, right: Matrix) -> Matrix {
         guard left.size == right.size else {
             print("Matrixes have differenet size, therefore addition can't be applied; matrixes must have same quantity of rows and columns")
@@ -398,9 +426,9 @@ extension Matrix {
     public static func += (left: inout Matrix, right: Matrix) {
         left = left + right
     }
-}
-
-extension Matrix {
+    
+    // MARK: Subtraction operator
+    
     public static func - (left: Matrix, right: Matrix) -> Matrix {
         guard left.size == right.size else {
             print("Matrixes have differenet size, therefore distraction can't be applied; matrixes must have same quantity of rows and columns")
@@ -419,10 +447,9 @@ extension Matrix {
     public static func -= (left: inout Matrix, right: Matrix) {
         left = left - right
     }
-}
-
-
-extension Matrix {
+    
+    // MARK: Multiplication operator
+    
     public static func * (left: Matrix, right: Matrix) -> Matrix {
         guard left.size.columns == right.size.rows else {
             print("Matrices aren't coupled, therefore multiplication can't be applied; coupled are those matrices quantity of columns of the first one is equal to quantity of rows of the second one:\n A(m X n)*B(n X q) = C(m X q) ")
@@ -443,9 +470,11 @@ extension Matrix {
         
         return result
     }
-}
-
-extension Matrix {
+    
+    // MARK: - Operations to be done with matrix and some element:
+    
+    // MARK: Multiplication operator
+    
     public static func * (left: Element, right: Matrix) -> Matrix {
         let result = Matrix<Element>(zeroMatrixOfSize: right.size)
         for i in 0..<right.size.rows {
@@ -473,15 +502,17 @@ extension Matrix {
             }
         }
     }
-}
-
-extension Matrix {
+    
+    // MARK: - Operation to be done with one matrix:
+    
+    // MARK: Prefix minus
+    
     public static prefix func - (right: Matrix) -> Matrix {
         return -Element.one * right
     }
-}
-
-extension Matrix {
+    
+    // MARK: - Transposing of matrix
+    
     /**
      Returns transposed towards current matrix.
      
@@ -603,10 +634,9 @@ extension Matrix {
         
         isTransposed = !isTransposed
     }
-}
-
-
-extension Matrix {
+    
+    // MARK: - Manipulating with rows and columns
+    
     /**
      Makes matrix from intersection of chosen rows and columns. Indices start from 0, 1, 2...
      
@@ -646,10 +676,10 @@ extension Matrix {
      
          print(outOfRange)
      
-         //Prints:
+         // Prints:
          //
-         //makeMatrixChoosing(rows:columns:): Row index out of range
-         //nil
+         // makeMatrixChoosing(rows:columns:): Row index out of range
+         // nil
      
      - Parameters:
          - rows: Array of indices of chosen rows.
@@ -690,9 +720,7 @@ extension Matrix {
         
         return result
     }
-}
-
-extension Matrix {
+    
     /**
      Makes matrix from elements that remainded after removing chosen rows and columns. Indices start from 0, 1, 2...
      
@@ -776,9 +804,9 @@ extension Matrix {
         
         return makeMatrixChoosing(rows: chosenRows, columns: chosenColumns)
     }
-}
-
-extension Matrix {
+    
+    // MARK: - Calculating a determinant
+    
     /**
      Calculates a determinant of the matrix.
      
@@ -805,7 +833,9 @@ extension Matrix {
             return nil
         }
         
-        if size.rows == 1 { return matrix[0][0] }
+        if size.rows == 1 {
+            return matrix[0][0]
+        }
         
         var result = Element.zero
         for j in 0..<size.columns {
@@ -816,7 +846,7 @@ extension Matrix {
         return result
     }
     
-    //Lighter version of the makeMatrixChoosing(rows:columns:) method where empty collections and out of range checks were removed. Created only for use inside of the determinant() method, for better perfomance of the algorithm.
+    // Lighter version of the makeMatrixChoosing(rows:columns:) method where empty collections and out of range checks were removed. Created only for use inside of the determinant() method, for better perfomance of the algorithm.
     private func unsafeMakeMatrixChoosing(rows: [Int], columns: [Int]) -> Matrix {
         let rows = Set<Int>(rows).sorted() // removing repeating elements
         let columns = Set<Int>(columns).sorted()
@@ -834,7 +864,7 @@ extension Matrix {
         return result
     }
     
-    //Lighter version of the makeMatrixRemoving(rows:columns:) method where empty collections and out of range checks were removed. Created only for use inside of the determinant() method, for better perfomance of the algorithm.
+    // Lighter version of the makeMatrixRemoving(rows:columns:) method where empty collections and out of range checks were removed. Created only for use inside of the determinant() method, for better perfomance of the algorithm.
     private func unsafeMakeMatrixRemoving(rows: [Int], columns: [Int]) -> Matrix {
         let crossedOffRows = Set<Int>(rows)
         let crossedOffColumns = Set<Int>(columns)
@@ -847,9 +877,9 @@ extension Matrix {
         
         return unsafeMakeMatrixChoosing(rows: chosenRows, columns: chosenColumns)
     }
-}
-
-extension Matrix {
+    
+    // MARK: - Determining degeneration of matrix
+    
     /**
      A Boolean value indicating whether the matrix is degenerate.
      
@@ -877,9 +907,9 @@ extension Matrix {
     public var isDegenerate: Bool {
         return determinant() == Element.zero
     }
-}
-
-extension Matrix {
+    
+    // MARK: - Determining symmetricity/antisymmetricity of matrix
+    
     /**
      A Boolean value indicating whether the matrix is symmetric.
      
@@ -902,8 +932,8 @@ extension Matrix {
          print(nonSymmetricMatrix.isSymmetric)
          print(symmetricMatrix.isSymmetric)
      
-         //false
-         //true
+         // false
+         // true
      
      By definition symmetric must be square, so for all non-square matrices the property will always be equal to `false`:
      
@@ -919,7 +949,10 @@ extension Matrix {
          // false
     */
     var isSymmetric: Bool {
-        guard isSquare else  { return false }
+        guard isSquare else  {
+            return false
+        }
+        
         return self.transposed() == self
     }
     
@@ -945,8 +978,8 @@ extension Matrix {
          print(nonAntisymmetricMatrix.isAntisymmetric)
          print(antisymmetricMatrix.isAntisymmetric)
      
-         //false
-         //true
+         // false
+         // true
      
      By definition antisymmetric must be square, so for all non-square matrices the property will always be equal to `false`:
      
@@ -962,12 +995,15 @@ extension Matrix {
          // false
      */
     var isAntisymmetric: Bool {
-        guard isSquare else  { return false }
+        guard isSquare else  {
+            return false
+        }
+        
         return -self.transposed() == self
     }
-}
+    
+    // MARK: - Private methods for internal use
 
-extension Matrix {
     private enum Standard: String {
         case matrixLiteral = "-0123456789.\n\t "
     }

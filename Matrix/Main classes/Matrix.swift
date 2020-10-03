@@ -2,8 +2,8 @@
 //  Matrix.swift
 //  Matrix
 //
-//  Created by user149331 on 4/14/19.
-//  Copyright © 2019 Ostap. All rights reserved.
+//  Created by Ostap Tyvonovych on 4/14/19.
+//  Copyright © 2019 OstapTyvonovych. All rights reserved.
 //
 
 public class Matrix<Element: Arithmetic & Descriptionable> {

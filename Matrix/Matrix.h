@@ -2,8 +2,8 @@
 //  Matrix.h
 //  Matrix
 //
-//  Created by user149331 on 4/23/19.
-//  Copyright © 2019 Ostap. All rights reserved.
+//  Created by Ostap Tyvonovych on 4/23/19.
+//  Copyright © 2019 OstapTyvonovych. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

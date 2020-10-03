@@ -2,8 +2,8 @@
 //  MatrixTests.swift
 //  MatrixTests
 //
-//  Created by user149331 on 5/22/19.
-//  Copyright © 2019 Ostap. All rights reserved.
+//  Created by Ostap Tyvonovych on 5/22/19.
+//  Copyright © 2019 OstapTyvonovych. All rights reserved.
 //
 
 import XCTest

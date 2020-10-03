@@ -9,9 +9,28 @@
 public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
     
     private var matrix: [[Element]]
-    private(set) var size: (rows: Int, columns: Int)
+    private var _size: (rows: Int, columns: Int)
+    private var _isTransposed = false
     
-    // MARK: - Initializers
+    // MARK: - Property of a matrix binded with its size
+    
+    /**
+     The size of the matrix
+
+         let array = [
+         [12, 43, 87],
+         [75, 40, 8]
+         ]
+         let matrix = Matrix<Int>(array: array)!
+         
+         print(matrix.size)
+         
+         // Prints "(rows: 2, columns: 3)"
+     
+    */
+    public var size: (rows: Int, columns: Int) {
+        return _size
+    }
 
     /**
      A Boolean value indicating whether the matrix is square.
@@ -38,26 +57,7 @@ public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
         return size.rows == size.columns
     }
     
-    /**
-     A Boolean value indicating whether the matrix was transposed. Default value is `false`.
-     
-     The property indicates the state of current instance of the matrix. That means it doesn't change when `transposed()` method called:
-     
-         let matrix = Matrix<Int>(string: string)!
-         print(matrix.isTransposed)
-     
-         let _ = matrix.transposed()
-         print(matrix.isTransposed)
-     
-         matrix.transpose()
-         print(matrix.isTransposed)
-     
-         // false
-         // false
-         // true
-     
-    */
-    public var isTransposed = false
+    // MARK: - Subscripts
     
     public subscript(_ row: Int, _ column: Int) -> Element {
         get {
@@ -86,6 +86,7 @@ public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
         }
     }
       
+    // MARK: - Initializers
     
     /**
      Creates a matrix from an array of same-length arrays.
@@ -134,8 +135,8 @@ public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
             }
         }
         
-        size.rows = arrayOfRows.count
-        size.columns = arrayOfRows[0].count
+        _size.rows = arrayOfRows.count
+        _size.columns = arrayOfRows[0].count
         matrix = arrayOfRows
     }
     
@@ -307,7 +308,7 @@ public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
         }
         
         self.matrix = array
-        self.size = size
+        self._size = size
     }
     
     /**
@@ -344,7 +345,7 @@ public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
         }
         
         self.matrix = array
-        self.size = (order, order)
+        self._size = (order, order)
     }
     
     // MARK: - Description
@@ -630,9 +631,32 @@ public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
         }
         
         matrix = newMatrix
-        size = (size.columns, size.rows)
+        _size = (size.columns, size.rows)
         
-        isTransposed = !isTransposed
+        _isTransposed = !_isTransposed
+    }
+    
+    /**
+     A Boolean value indicating whether the matrix was transposed. Default value is `false`.
+     
+     The property indicates the state of current instance of the matrix. That means it doesn't change when `transposed()` method called:
+     
+         let matrix = Matrix<Int>(string: string)!
+         print(matrix.isTransposed)
+     
+         let _ = matrix.transposed()
+         print(matrix.isTransposed)
+     
+         matrix.transpose()
+         print(matrix.isTransposed)
+     
+         // false
+         // false
+         // true
+     
+    */
+    public var isTransposed: Bool {
+        return _isTransposed
     }
     
     // MARK: - Manipulating with rows and columns
@@ -949,11 +973,7 @@ public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
          // false
     */
     var isSymmetric: Bool {
-        guard isSquare else  {
-            return false
-        }
-        
-        return self.transposed() == self
+        return isSquare && self.transposed() == self
     }
     
     /**
@@ -995,11 +1015,7 @@ public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
          // false
      */
     var isAntisymmetric: Bool {
-        guard isSquare else  {
-            return false
-        }
-        
-        return -self.transposed() == self
+        return isSquare && -self.transposed() == self
     }
     
     // MARK: - Private methods for internal use

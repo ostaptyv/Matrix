@@ -6,11 +6,15 @@
 //  Copyright © 2019 OstapTyvonovych. All rights reserved.
 //
 
+public typealias MatrixSize = (rows: Int, columns: Int)
+
 public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
     
     private var matrix: [[Element]]
-    private var _size: (rows: Int, columns: Int)
+    private var _size: MatrixSize
     private var _isTransposed = false
+    
+    private let stringDescriptionService = StringDescriptionService<Element>()
     
     // MARK: - Property of a matrix binded with its size
     
@@ -28,7 +32,7 @@ public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
          // Prints "(rows: 2, columns: 3)"
      
     */
-    public var size: (rows: Int, columns: Int) {
+    public var size: MatrixSize {
         return _size
     }
 
@@ -243,32 +247,11 @@ public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
          - string: A string containing matrix.
     */
     public convenience init?(string: String) {
-        var string = string
+        let stringInitializerService = StringInitializerService<Element>()
+        let convertedArray = stringInitializerService.convert(stringToMatrixArray: string)
         
-        if string.isEmpty {
-            return nil
-        }
-        
-        guard !Matrix<Element>.isHaveForeignCharacters(string, compairingTo: .matrixLiteral) else {
-            return nil
-        }
-        
-        string = string.replacingOccurrences(of: "\t", with: " ")
-
-        let arrayOfSubstringLines = string.split(separator: "\n")
-        let arrayOfLines = Matrix<Element>.convertToArrayOfString(from: arrayOfSubstringLines)
-
-        var matrixWithStringNumbers = [[String]]()
-        
-        for line in arrayOfLines {
-            let arrayOfSubstringNumbers = line.split(separator: " ")
-            let splittedNumbers = Matrix<Element>.convertToArrayOfString(from: arrayOfSubstringNumbers)
-            matrixWithStringNumbers.append(splittedNumbers)
-        }
-
-        let convertedMatrix = Matrix<Element>.convert(stringMatrix: matrixWithStringNumbers)
-        if let matrix = convertedMatrix {
-            self.init(array: matrix)
+        if let array = convertedArray {
+            self.init(array: array)
         } else {
             return nil
         }
@@ -296,7 +279,7 @@ public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
      - Parameters:
          - size: A tuple where the first element is number of rows and the second one is number of columns.
     */
-    public init(zeroMatrixOfSize size: (rows: Int, columns: Int)) {
+    public init(zeroMatrixOfSize size: MatrixSize) {
         var array = [[Element]]()
         
         for _ in 0..<size.rows {
@@ -352,36 +335,7 @@ public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
     
     /// A textual representation of this matrix.
     public var description: String {
-
-        let array = convert(matrix: matrix) { element in
-            return element.description
-        }
-        let theLongestStringInColumn = getDictionaryWithTheLongestStringInColumn(from: array)
-        
-        var result = ""
-        
-        for i in 0..<size.rows {
-            for j in 0..<size.columns {
-                var element = array[i][j]
-                
-                while theLongestStringInColumn[j]! != element.count {
-                    element += " "
-                }
-                
-                if !element.contains("-") {
-                    element = " " + element
-                } else {
-                    element = element + " "
-                }
-                
-                element += "   "
-                result += element
-            }
-            result += "\n"
-        }
-        result.removeLast()
-        
-        return result
+        return stringDescriptionService.makeDescription(using: matrix, for: size)
     }
     
     // MARK: - 'Equatable' conformance
@@ -972,7 +926,7 @@ public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
      
          // false
     */
-    var isSymmetric: Bool {
+    public var isSymmetric: Bool {
         return isSquare && self.transposed() == self
     }
     
@@ -1014,79 +968,8 @@ public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
      
          // false
      */
-    var isAntisymmetric: Bool {
+    public var isAntisymmetric: Bool {
         return isSquare && -self.transposed() == self
-    }
-    
-    // MARK: - Private methods for internal use
-
-    private enum Standard: String {
-        case matrixLiteral = "-0123456789.\n\t "
-    }
-    
-    private static func isHaveForeignCharacters(_ string: String, compairingTo standard: Standard) -> Bool {
-        let setOfString = Set(string)
-        let setOfPermittedCharacters = Set(standard.rawValue)
-        let setOfForeignCharacters = setOfString.subtracting(setOfPermittedCharacters)
-        return !setOfForeignCharacters.isEmpty
-    }
-    
-    private static func convertToArrayOfString(from arrayOfSubstring: [Substring]) -> [String] {
-        var arrayOfString = [String]()
-        for substring in arrayOfSubstring {
-            arrayOfString.append(String(substring))
-        }
-        return arrayOfString
-    }
-    
-    private static func convert(stringMatrix: [[String]]) -> [[Element]]? {
-        var result: [[Element]] = []
-        var isBreaked = false
-        mainLoop: for line in stringMatrix {
-            var resultLine = [Element]()
-            for stringElement in line {
-                let convertedElement = Element(stringElement)
-                if let element = convertedElement {
-                    resultLine.append(element)
-                } else {
-                    isBreaked = true
-                    break mainLoop
-                }
-            }
-            result.append(resultLine)
-        }
-        if isBreaked {
-            return nil
-        } else {
-            return result
-        }
-    }
-    
-    private func convert<Convertable, Converted>(matrix: [[Convertable]], rule: (Convertable) -> Converted) -> [[Converted]] {
-        var result: [[Converted]] = []
-        for line in matrix {
-            var convertedLine = [Converted]()
-            for element in line {
-                convertedLine.append(rule(element))
-            }
-            result.append(convertedLine)
-        }
-        return result
-    }
-    
-    private func getDictionaryWithTheLongestStringInColumn(from array: [[String]]) ->  [Int: Int] {
-        var theLongestStringInColumn = [Int: Int]()
-        
-        for j in 0..<size.columns {
-            theLongestStringInColumn[j] = 0
-            for i in 0..<size.rows {
-                let stringLength = array[i][j].count
-                if theLongestStringInColumn[j]! < stringLength {
-                    theLongestStringInColumn[j] = stringLength
-                }
-            }
-        }
-        return theLongestStringInColumn
     }
 }
 

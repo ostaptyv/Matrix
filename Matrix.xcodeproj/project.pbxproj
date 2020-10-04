@@ -15,6 +15,8 @@
 		52EC8F74226F0E010078FB23 /* Arithmetic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EC8F73226F0E010078FB23 /* Arithmetic.swift */; };
 		52EC8F77226F0E0C0078FB23 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EC8F75226F0E0B0078FB23 /* Int.swift */; };
 		52EC8F78226F0E0C0078FB23 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EC8F76226F0E0C0078FB23 /* Double.swift */; };
+		84B38B6B252A041E007D9226 /* StringInitializerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B38B6A252A041E007D9226 /* StringInitializerService.swift */; };
+		84B38B70252A0A1A007D9226 /* StringDescriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B38B6F252A0A1A007D9226 /* StringDescriptionService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +41,8 @@
 		52EC8F73226F0E010078FB23 /* Arithmetic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arithmetic.swift; sourceTree = "<group>"; };
 		52EC8F75226F0E0B0078FB23 /* Int.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		52EC8F76226F0E0C0078FB23 /* Double.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
+		84B38B6A252A041E007D9226 /* StringInitializerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringInitializerService.swift; sourceTree = "<group>"; };
+		84B38B6F252A0A1A007D9226 /* StringDescriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringDescriptionService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,19 +96,20 @@
 			children = (
 				52EC8F69226F0DE00078FB23 /* Matrix.h */,
 				52EC8F6A226F0DE00078FB23 /* Info.plist */,
-				52EC8F79226F0E100078FB23 /* Main classes */,
+				52EC8F79226F0E100078FB23 /* Classes */,
 				52EC8F7A226F0E170078FB23 /* Protocols */,
 				52EC8F7B226F0E200078FB23 /* Standard type extensions */,
 			);
 			path = Matrix;
 			sourceTree = "<group>";
 		};
-		52EC8F79226F0E100078FB23 /* Main classes */ = {
+		52EC8F79226F0E100078FB23 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
 				52EC8F71226F0DF30078FB23 /* Matrix.swift */,
+				84B38B69252A03F1007D9226 /* Services */,
 			);
-			path = "Main classes";
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		52EC8F7A226F0E170078FB23 /* Protocols */ = {
@@ -123,6 +128,15 @@
 				52EC8F76226F0E0C0078FB23 /* Double.swift */,
 			);
 			path = "Standard type extensions";
+			sourceTree = "<group>";
+		};
+		84B38B69252A03F1007D9226 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				84B38B6A252A041E007D9226 /* StringInitializerService.swift */,
+				84B38B6F252A0A1A007D9226 /* StringDescriptionService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -243,10 +257,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				52EC8F72226F0DF30078FB23 /* Matrix.swift in Sources */,
+				84B38B70252A0A1A007D9226 /* StringDescriptionService.swift in Sources */,
 				5246B9D222AFB13800265931 /* Descriptionable.swift in Sources */,
 				52EC8F78226F0E0C0078FB23 /* Double.swift in Sources */,
 				52EC8F77226F0E0C0078FB23 /* Int.swift in Sources */,
 				52EC8F74226F0E010078FB23 /* Arithmetic.swift in Sources */,
+				84B38B6B252A041E007D9226 /* StringInitializerService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -284,7 +284,7 @@ class MatrixTests: XCTestCase {
     }
     
     func testSubscript() {
-        let matrix = Matrix<Int>(string: """
+        var matrix = Matrix<Int>(string: """
         11 12 13 14 15
         21 22 23 24 25
         31 32 33 34 35
@@ -295,6 +295,25 @@ class MatrixTests: XCTestCase {
         XCTAssertEqual(matrix[3, 5], 0)
         XCTAssertEqual(matrix[-1, 4], 0)
         XCTAssertEqual(matrix[2, 7], 0)
+        
+        let mutatedMatrix = Matrix<Int>(string: """
+        41 12 13 14 45
+        21 22 100 24 25
+        91 32 33 34 59
+        """)!
+        
+        matrix[0, 0] = 41
+        matrix[0, 4] = 45
+        matrix[2, 0] = 91
+        matrix[2, 4] = 59
+        matrix[1, 2] = 100
+        
+        // Will have no effect
+        matrix[5, 5] = 9299
+        matrix[-1, -3] = 2
+        matrix[100, 1] = 13
+        
+        XCTAssertEqual(matrix, mutatedMatrix)
     }
     
     func testDescription() {
@@ -379,7 +398,7 @@ class MatrixTests: XCTestCase {
         3  22 99
         """
         
-        let inputMatrix1 = Matrix<Int>(string: inputString1)!
+        var inputMatrix1 = Matrix<Int>(string: inputString1)!
         let resultMatrix1 = Matrix<Int>(string: resultString1)!
         
         inputMatrix1.transpose()
@@ -398,7 +417,7 @@ class MatrixTests: XCTestCase {
         5 678 33
         """
         
-        let inputMatrix2 = Matrix<Int>(string: inputString2)!
+        var inputMatrix2 = Matrix<Int>(string: inputString2)!
         let resultMatrix2 = Matrix<Int>(string: resultString2)!
         
         inputMatrix2.transpose()
@@ -414,7 +433,7 @@ class MatrixTests: XCTestCase {
         29 40 22
         33 76 99
         """
-        let matrix = Matrix<Int>(string: string)!
+        var matrix = Matrix<Int>(string: string)!
         
         XCTAssertFalse(matrix.isTransposed)
         matrix.transpose()

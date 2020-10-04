@@ -8,7 +8,7 @@
 
 public typealias MatrixSize = (rows: Int, columns: Int)
 
-public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
+public struct Matrix<Element: Arithmetic & Descriptionable>: Equatable {
     
     private var matrix: [[Element]]
     private var _size: MatrixSize
@@ -246,7 +246,7 @@ public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
      - Parameters:
          - string: A string containing matrix.
     */
-    public convenience init?(string: String) {
+    public init?(string: String) {
         let stringInitializerService = StringInitializerService<Element>()
         let convertedArray = stringInitializerService.convert(stringToMatrixArray: string)
         
@@ -369,7 +369,7 @@ public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
             return Matrix(zeroMatrixOfSize: (1, 1))
         }
         
-        let result = Matrix(zeroMatrixOfSize: right.size)
+        var result = Matrix(zeroMatrixOfSize: right.size)
         for i in 0..<left.size.rows {
             for j in 0..<left.size.columns {
                 result[i, j] = left[i, j] + right[i, j]
@@ -390,7 +390,7 @@ public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
             return Matrix(zeroMatrixOfSize: (1, 1))
         }
         
-        let result = Matrix(zeroMatrixOfSize: left.size)
+        var result = Matrix(zeroMatrixOfSize: left.size)
         for i in 0..<left.size.rows {
             for j in 0..<left.size.columns {
                 result[i, j] = left[i, j] - right[i, j]
@@ -411,7 +411,7 @@ public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
             return Matrix(zeroMatrixOfSize: (1, 1))
         }
         
-        let result = Matrix<Element>(zeroMatrixOfSize: (left.size.rows, right.size.columns))
+        var result = Matrix<Element>(zeroMatrixOfSize: (left.size.rows, right.size.columns))
         
         for i in 0..<left.size.rows {
             for j in 0..<right.size.columns {
@@ -431,7 +431,7 @@ public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
     // MARK: Multiplication operator
     
     public static func * (left: Element, right: Matrix) -> Matrix {
-        let result = Matrix<Element>(zeroMatrixOfSize: right.size)
+        var result = Matrix<Element>(zeroMatrixOfSize: right.size)
         for i in 0..<right.size.rows {
             for j in 0..<right.size.columns {
                 result[i, j] += right[i, j] * left
@@ -441,7 +441,7 @@ public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
     }
     
     public static func * (left: Matrix, right: Element) -> Matrix {
-        let result = Matrix<Element>(zeroMatrixOfSize: left.size)
+        var result = Matrix<Element>(zeroMatrixOfSize: left.size)
         for i in 0..<left.size.rows {
             for j in 0..<left.size.columns {
                 result[i, j] += left[i, j] * right
@@ -516,7 +516,7 @@ public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
          // (rows: 3, columns: 4)
      */
     public func transposed() -> Matrix {
-        let result = Matrix<Element>(zeroMatrixOfSize: (size.columns, size.rows))
+        var result = Matrix<Element>(zeroMatrixOfSize: (size.columns, size.rows))
         for i in 0..<size.rows {
             for j in 0..<size.columns {
                 result[j, i] = matrix[i][j]
@@ -573,7 +573,7 @@ public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
          // Two matrices are equal
          // (rows: 4, columns: 3)
     */
-    public func transpose() {
+    public mutating func transpose() {
         let oldMatrix = matrix
         var newMatrix = [[Element]]()
         
@@ -686,7 +686,7 @@ public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
             }
         }
         
-        let result = Matrix<Element>(zeroMatrixOfSize: (rows.count, columns.count))
+        var result = Matrix<Element>(zeroMatrixOfSize: (rows.count, columns.count))
         
         for i in 0..<rows.count {
             for j in 0..<columns.count {
@@ -829,7 +829,7 @@ public class Matrix<Element: Arithmetic & Descriptionable>: Equatable {
         let rows = Set<Int>(rows).sorted() // removing repeating elements
         let columns = Set<Int>(columns).sorted()
         
-        let result = Matrix<Element>(zeroMatrixOfSize: (rows.count, columns.count))
+        var result = Matrix<Element>(zeroMatrixOfSize: (rows.count, columns.count))
         
         for i in 0..<rows.count {
             for j in 0..<columns.count {

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5246B9D222AFB13800265931 /* Descriptionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5246B9D122AFB13800265931 /* Descriptionable.swift */; };
 		527EECC52295EAFD0029D52C /* MatrixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527EECC42295EAFD0029D52C /* MatrixTests.swift */; };
 		527EECC72295EAFD0029D52C /* Matrix.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EC8F66226F0DE00078FB23 /* Matrix.framework */; };
 		52EC8F6B226F0DE00078FB23 /* Matrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 52EC8F69226F0DE00078FB23 /* Matrix.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -30,7 +29,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5246B9D122AFB13800265931 /* Descriptionable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Descriptionable.swift; sourceTree = "<group>"; };
 		527EECC22295EAFD0029D52C /* MatrixTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MatrixTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		527EECC42295EAFD0029D52C /* MatrixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixTests.swift; sourceTree = "<group>"; };
 		527EECC62295EAFD0029D52C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -116,7 +114,6 @@
 			isa = PBXGroup;
 			children = (
 				52EC8F73226F0E010078FB23 /* Arithmetic.swift */,
-				5246B9D122AFB13800265931 /* Descriptionable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -258,7 +255,6 @@
 			files = (
 				52EC8F72226F0DF30078FB23 /* Matrix.swift in Sources */,
 				84B38B70252A0A1A007D9226 /* StringDescriptionService.swift in Sources */,
-				5246B9D222AFB13800265931 /* Descriptionable.swift in Sources */,
 				52EC8F78226F0E0C0078FB23 /* Double.swift in Sources */,
 				52EC8F77226F0E0C0078FB23 /* Int.swift in Sources */,
 				52EC8F74226F0E010078FB23 /* Arithmetic.swift in Sources */,

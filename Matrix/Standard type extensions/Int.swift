@@ -6,8 +6,6 @@
 //  Copyright © 2019 OstapTyvonovych. All rights reserved.
 //
 
-extension Int: Descriptionable {}
-
 extension Int: Arithmetic {
     public static var one: Int {
         return 1

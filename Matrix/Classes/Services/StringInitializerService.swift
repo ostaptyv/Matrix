@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct StringInitializerService<Element: Descriptionable> {
+struct StringInitializerService<Element: LosslessStringConvertible> {
     
     // MARK: - Public method
     

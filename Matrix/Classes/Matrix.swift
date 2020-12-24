@@ -8,18 +8,14 @@
 
 public typealias MatrixSize = (rows: Int, columns: Int)
 
-public struct Matrix<Element: Arithmetic & Descriptionable>: Equatable {
-    
-    private var matrix: [[Element]]
-    private var _size: MatrixSize
-    private var _isTransposed = false
+public struct Matrix<Element: Arithmetic & LosslessStringConvertible>: Equatable, LosslessStringConvertible {
     
     private let stringDescriptionService = StringDescriptionService<Element>()
     
-    // MARK: - Property of a matrix binded with its size
+    private var matrix: [[Element]]
     
     /**
-     The size of the matrix
+     The size of the matrix.
 
          let array = [
          [12, 43, 87],
@@ -30,11 +26,31 @@ public struct Matrix<Element: Arithmetic & Descriptionable>: Equatable {
          print(matrix.size)
          
          // Prints "(rows: 2, columns: 3)"
-     
+     */
+    public private(set) var size: MatrixSize
+    
+    /**
+        A Boolean value indicating whether the matrix was transposed. Default value is `false`.
+        
+        The property indicates the state of current instance of the matrix. That means it doesn't change when `transposed()` method called:
+        
+            let matrix = Matrix<Int>(string: string)!
+            print(matrix.isTransposed)
+            
+            let _ = matrix.transposed()
+            print(matrix.isTransposed)
+            
+            matrix.transpose()
+            print(matrix.isTransposed)
+            
+            // false
+            // false
+            // true
     */
-    public var size: MatrixSize {
-        return _size
-    }
+    public private(set) var isTransposed = false
+    
+    // MARK: - Property of a matrix binded with its size
+    
 
     /**
      A Boolean value indicating whether the matrix is square.
@@ -139,8 +155,8 @@ public struct Matrix<Element: Arithmetic & Descriptionable>: Equatable {
             }
         }
         
-        _size.rows = arrayOfRows.count
-        _size.columns = arrayOfRows[0].count
+        size.rows = arrayOfRows.count
+        size.columns = arrayOfRows[0].count
         matrix = arrayOfRows
     }
     
@@ -244,11 +260,11 @@ public struct Matrix<Element: Arithmetic & Descriptionable>: Equatable {
          // Prints "(rows: 4, columns: 4)"
      
      - Parameters:
-         - string: A string containing matrix.
+         - description: A string containing matrix.
     */
-    public init?(string: String) {
+    public init?(_ description: String) {
         let stringInitializerService = StringInitializerService<Element>()
-        let convertedArray = stringInitializerService.convert(stringToMatrixArray: string)
+        let convertedArray = stringInitializerService.convert(stringToMatrixArray: description)
         
         if let array = convertedArray {
             self.init(array: array)
@@ -291,7 +307,7 @@ public struct Matrix<Element: Arithmetic & Descriptionable>: Equatable {
         }
         
         self.matrix = array
-        self._size = size
+        self.size = size
     }
     
     /**
@@ -328,7 +344,7 @@ public struct Matrix<Element: Arithmetic & Descriptionable>: Equatable {
         }
         
         self.matrix = array
-        self._size = (order, order)
+        self.size = (order, order)
     }
     
     // MARK: - Description
@@ -572,7 +588,7 @@ public struct Matrix<Element: Arithmetic & Descriptionable>: Equatable {
          //
          // Two matrices are equal
          // (rows: 4, columns: 3)
-    */
+     */
     public mutating func transpose() {
         let oldMatrix = matrix
         var newMatrix = [[Element]]()
@@ -585,33 +601,11 @@ public struct Matrix<Element: Arithmetic & Descriptionable>: Equatable {
         }
         
         matrix = newMatrix
-        _size = (size.columns, size.rows)
+        size = (size.columns, size.rows)
         
-        _isTransposed = !_isTransposed
+        isTransposed = !isTransposed
     }
     
-    /**
-     A Boolean value indicating whether the matrix was transposed. Default value is `false`.
-     
-     The property indicates the state of current instance of the matrix. That means it doesn't change when `transposed()` method called:
-     
-         let matrix = Matrix<Int>(string: string)!
-         print(matrix.isTransposed)
-     
-         let _ = matrix.transposed()
-         print(matrix.isTransposed)
-     
-         matrix.transpose()
-         print(matrix.isTransposed)
-     
-         // false
-         // false
-         // true
-     
-    */
-    public var isTransposed: Bool {
-        return _isTransposed
-    }
     
     // MARK: - Manipulating with rows and columns
     

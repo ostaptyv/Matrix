@@ -9,105 +9,7 @@
 import XCTest
 @testable import Matrix
 
-class MatrixTests: XCTestCase {
-    
-    func testArrayInit() {
-        let emptyArray = [[Int]]()
-        let emptyMatrix = Matrix<Int>(array: emptyArray)
-        
-        XCTAssertNil(emptyMatrix)
-        
-        let spoiledArray = [
-        [1, 2, 3],
-        [3, 5, 6],
-        [2, 1]
-        ]
-        let spoiledMatrix = Matrix<Int>(array: spoiledArray)
-
-        XCTAssertNil(spoiledMatrix)
-        
-        let array = [
-        [1, 4, 2, 3],
-        [8, 0, 0, 1],
-        [-6, -10, 4, 7]
-        ]
-        let matrix = Matrix<Int>(array: array)
-        
-        XCTAssertNotNil(matrix)
-        XCTAssertEqual(matrix!.size.rows, 3)
-        XCTAssertEqual(matrix!.size.columns, 4)
-    }
-    
-    func testStringInit() {
-        let emptyString = ""
-        let emptyMatrix = Matrix<Int>(emptyString)
-        
-        XCTAssertNil(emptyMatrix)
-        
-        let spoiledString = """
-        1 2 3 4
-        1 3   4
-        """
-        let spoiledMatrix = Matrix<Int>(spoiledString)
-        
-        XCTAssertNil(spoiledMatrix)
-        
-        let foreignCharacters = """
-        1 2 g 4
-        1 2m msq4
-        """
-        let matrixWithForeignCharaters = Matrix<Int>(foreignCharacters)
-        
-        XCTAssertNil(matrixWithForeignCharaters)
-        
-        let invalidForm1 = """
-        121 221 2
-        12  3-2 1
-        """
-        let invalidForm2 = """
-        0.0 2.1 4.5
-        2.4 3.4 2.3
-        1.0 7.8.4 3.0
-        """
-        let matrixWithInvalidForm1 = Matrix<Int>(invalidForm1)
-        let matrixWithInvalidForm2 = Matrix<Double>(invalidForm2)
-        
-        XCTAssertNil(matrixWithInvalidForm1)
-        XCTAssertNil(matrixWithInvalidForm2)
-        
-        let correctString = """
-        1 2 3 5 6 4
-        1 4 3 4 5 6
-        """
-        let matrix = Matrix<Int>(correctString)
-        
-        XCTAssertNotNil(matrix)
-        XCTAssertEqual(matrix!.size.rows, 2)
-        XCTAssertEqual(matrix!.size.columns, 6)
-        
-        let stringWithBigSpaces = """
-           1 2 3    4
-        1  3 5  3
-         42  4 4 4
-        """
-        let matrixWithBigSpaces = Matrix<Int>(stringWithBigSpaces)
-        
-        XCTAssertNotNil(matrixWithBigSpaces)
-        XCTAssertEqual(matrixWithBigSpaces!.size.rows, 3)
-        XCTAssertEqual(matrixWithBigSpaces!.size.columns, 4)
-        
-        let stringWithExtraNewLineCharacter = """
-        1 2 3
-
-        1 2 3
-        1 2 3
-        """
-        let matrixWithExtraNewLineCharacter = Matrix<Int>(stringWithExtraNewLineCharacter)
-        
-        XCTAssertNotNil(matrixWithExtraNewLineCharacter)
-        XCTAssertEqual(matrixWithExtraNewLineCharacter!.size.rows, 3)
-        XCTAssertEqual(matrixWithExtraNewLineCharacter!.size.columns, 3)
-    }
+class MainTestSuite: XCTestCase {
     
     func testIdentityMatrixInit() {
         let stringIdentity = """
@@ -123,33 +25,44 @@ class MatrixTests: XCTestCase {
     }
     
     func testZeroMatrixInit() {
-        let string1 = """
+        let stringInt = """
         0 0 0
         0 0 0
         0 0 0
         """
-        let string2 = """
+        let stringDouble = """
         0.0 0.0 0.0 0.0 0.0 0.0 0.0
         0.0 0.0 0.0 0.0 0.0 0.0 0.0
         0.0 0.0 0.0 0.0 0.0 0.0 0.0
         0.0 0.0 0.0 0.0 0.0 0.0 0.0
         """
+        let resultInt = Matrix<Int>(stringInt)
+        let resultDouble = Matrix<Double>(stringDouble)
         
-        let matrix1 = Matrix<Int>(zeroMatrixOfSize: (3, 3))
-        let matrix2 = Matrix<Double>(zeroMatrixOfSize: (4, 7))
-        let result1 = Matrix<Int>(string1)
-        let result2 = Matrix<Double>(string2)
+        let matrixInt = Matrix<Int>(zeroMatrixOfSize: (3, 3))
+        let matrixDouble = Matrix<Double>(zeroMatrixOfSize: (4, 7))
                 
-        XCTAssertEqual(matrix1, result1)
-        XCTAssertEqual(matrix2, result2)
+        XCTAssertEqual(matrixInt, resultInt)
+        XCTAssertEqual(matrixDouble, resultDouble)
     }
     
     func testIsSquare() {
-        let matrix1 = Matrix<Int>(zeroMatrixOfSize: (3, 3))
-        let matrix2 = Matrix<Double>(zeroMatrixOfSize: (4, 7))
+        let stringSquare = """
+        0 0 0 0
+        0 0 0 0
+        0 0 0 0
+        0 0 0 0
+        """
+        let stringNonSquare = """
+        0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0
+        0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0
+        0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0
+        """
+        let matrixSquare = Matrix<Int>(stringSquare)!
+        let matrixNonSquare = Matrix<Double>(stringNonSquare)!
         
-        XCTAssertTrue(matrix1.isSquare)
-        XCTAssertFalse(matrix2.isSquare)
+        XCTAssertTrue(matrixSquare.isSquare)
+        XCTAssertFalse(matrixNonSquare.isSquare)
     }
     
     func testEqualOperator() {
@@ -159,7 +72,7 @@ class MatrixTests: XCTestCase {
         7 8 9
         """
         let matrix1 = Matrix<Int>(string1)
-        let matrix2 = Matrix<Int>(string1)
+        let matrix2 = Matrix<Int>(string1) // we can use the same string since the string will be copied (String is a struct and has value type behavior)
         
         XCTAssertTrue(matrix1 == matrix2)
         XCTAssertTrue(matrix2 == matrix1)
@@ -175,21 +88,27 @@ class MatrixTests: XCTestCase {
         XCTAssertFalse(matrix3 == matrix1)
     }
     
+    let zeroMatrix = Matrix<Int>("0")!
+    
     func testPlusOperator() {
         let string1 = """
-        1 8 3
+         1 8 3
         -4 5 6
         -7 8 2
         """
         let string2 = """
         9 -8 7
         6 13 4
-        3 2 1
+        3  2 1
         """
         let stringResult = """
         10 0 10
         2 18 10
         -4 10 3
+        """
+        let stringDifferentSize = """
+        12 43  2  4
+         1 -4 98  6
         """
         
         let matrix1 = Matrix<Int>(string1)!
@@ -198,6 +117,11 @@ class MatrixTests: XCTestCase {
         
         XCTAssertEqual(matrix1 + matrix2, matrixResult)
         XCTAssertEqual(matrix2 + matrix1, matrixResult)
+        
+        let matrixDifferentSize = Matrix<Int>(stringDifferentSize)!
+        
+        XCTAssertEqual(matrix1 + matrixDifferentSize, zeroMatrix)
+        XCTAssertEqual(matrixDifferentSize + matrix1, zeroMatrix)
     }
     
     func testPlusEqualOperator() {
@@ -216,6 +140,11 @@ class MatrixTests: XCTestCase {
         2 18 10
         -4 10 3
         """
+        let stringDifferentSize = """
+        1
+        6
+        4
+        """
         
         var matrix1 = Matrix<Int>(string1)!
         let matrix2 = Matrix<Int>(string2)!
@@ -224,6 +153,12 @@ class MatrixTests: XCTestCase {
         matrix1 += matrix2
         
         XCTAssertEqual(matrix1, matrixResult)
+        
+        let matrixDifferentSize = Matrix<Int>(stringDifferentSize)!
+        
+        matrix1 += matrixDifferentSize
+        
+        XCTAssertEqual(matrix1, zeroMatrix)
     }
     
     func testInfixMinusOperator() {
@@ -247,7 +182,9 @@ class MatrixTests: XCTestCase {
         10 8 -2
         10 -6 -1
         """
-        
+        let stringDifferentSize = """
+        12 34 51
+        """
         let matrix1 = Matrix<Int>(string1)!
         let matrix2 = Matrix<Int>(string2)!
         let matrixDistraction1from2 = Matrix<Int>(resultDistraction1from2)
@@ -255,6 +192,11 @@ class MatrixTests: XCTestCase {
         
         XCTAssertEqual(matrix1 - matrix2, matrixDistraction1from2)
         XCTAssertEqual(matrix2 - matrix1, matrixDistraction2from1)
+        
+        let matrixDifferentSize = Matrix<Int>(stringDifferentSize)!
+        
+        XCTAssertEqual(matrix1 - matrixDifferentSize, zeroMatrix)
+        XCTAssertEqual(matrixDifferentSize - matrix1, zeroMatrix)
     }
     
     func testMinusEqualOperator() {
@@ -273,7 +215,9 @@ class MatrixTests: XCTestCase {
         -10 -8 2
         -10 6 1
         """
-        
+        let stringDifferentSize = """
+        12 5
+        """
         var matrix1 = Matrix<Int>(string1)!
         let matrix2 = Matrix<Int>(string2)!
         let matrixDistraction1from2 = Matrix<Int>(resultDistraction1from2)
@@ -281,6 +225,12 @@ class MatrixTests: XCTestCase {
         matrix1 -= matrix2
         
         XCTAssertEqual(matrix1, matrixDistraction1from2)
+        
+        let matrixDifferentSize = Matrix<Int>(stringDifferentSize)!
+        
+        matrix1 -= matrixDifferentSize
+        
+        XCTAssertEqual(matrix1, zeroMatrix)
     }
     
     func testSubscript() {
@@ -312,33 +262,22 @@ class MatrixTests: XCTestCase {
         matrix[5, 5] = 9299
         matrix[-1, -3] = 2
         matrix[100, 1] = 13
+        matrix[1, 100] = 31
         
         XCTAssertEqual(matrix, mutatedMatrix)
     }
     
-    func testDescription() {
-        let matrix = Matrix<Int>(array: [
-            [123, -43432, 4, 232222222321],
-            [2, 23, 213213, 44],
-            [23232123, 3, 232323, -43323]
-        ])!
-        print(matrix.description)
-        let string = " 123        -43432     4         232222222321   \n 2           23        213213    44             \n 23232123    3         232323   -43323          "
-
-        XCTAssertEqual(matrix.description, string)
-    }
-    
     func testAcceptabilityInitializationWithDescriptionProperty() {
-        let matrix1 = Matrix<Int>(array: [
+        let matrix = Matrix<Int>(array: [
             [1233, 33, 3],
             [21, 44, 4],
             [21, -443, 211],
             [-232, 21, 232]
         ])!
 
-        let matrix2 = Matrix<Int>(matrix1.description)
+        let sameMatrix = Matrix<Int>(matrix.description)
         
-        XCTAssertEqual(matrix1, matrix2)
+        XCTAssertEqual(matrix, sameMatrix)
     }
     
     func testTransposed() {
@@ -352,7 +291,6 @@ class MatrixTests: XCTestCase {
         65 40 76
         3  22 99
         """
-        
         let inputMatrix1 = Matrix<Int>(inputString1)!
         let originalMatrix1 = Matrix<Int>(inputString1)!
         let resultMatrix1 = Matrix<Int>(resultString1)!
@@ -360,7 +298,7 @@ class MatrixTests: XCTestCase {
         let transposedMatrix1 = inputMatrix1.transposed()
 
         XCTAssertEqual(transposedMatrix1, resultMatrix1)
-        XCTAssertEqual(inputMatrix1, originalMatrix1)
+        XCTAssertEqual(inputMatrix1, originalMatrix1) // non-mutating test
         
         let inputString2 = """
         12 65 3
@@ -373,7 +311,6 @@ class MatrixTests: XCTestCase {
         65 40 76 0
         3  22 99 2
         """
-        
         let inputMatrix2 = Matrix<Int>(inputString2)!
         let originalMatrix2 = Matrix<Int>(inputString2)!
         let resultMatrix2 = Matrix<Int>(resultString2)!
@@ -381,7 +318,7 @@ class MatrixTests: XCTestCase {
         let transposedMatrix2 = inputMatrix2.transposed()
         
         XCTAssertEqual(transposedMatrix2, resultMatrix2)
-        XCTAssertEqual(inputMatrix2, originalMatrix2)
+        XCTAssertEqual(inputMatrix2, originalMatrix2) // non-mutating test
         XCTAssertEqual(transposedMatrix2.size.rows, 3)
         XCTAssertEqual(transposedMatrix2.size.columns, 4)
     }
@@ -397,7 +334,6 @@ class MatrixTests: XCTestCase {
         65 40 76
         3  22 99
         """
-        
         var inputMatrix1 = Matrix<Int>(inputString1)!
         let resultMatrix1 = Matrix<Int>(resultString1)!
         
@@ -416,7 +352,6 @@ class MatrixTests: XCTestCase {
         3  22 99
         5 678 33
         """
-        
         var inputMatrix2 = Matrix<Int>(inputString2)!
         let resultMatrix2 = Matrix<Int>(resultString2)!
         
@@ -459,7 +394,6 @@ class MatrixTests: XCTestCase {
         -28 91
         -12 10
         """
-        
         let matrix1 = Matrix<Int>(string1)!
         let matrix2 = Matrix<Int>(string2)!
         let resultMatrix = Matrix<Int>(resultString)!
@@ -477,7 +411,6 @@ class MatrixTests: XCTestCase {
         5 15 10
         25 0 10
         """
-        
         let matrix = Matrix<Int>(string)!
         let resultMatrix = Matrix<Int>(result)!
         
@@ -494,7 +427,6 @@ class MatrixTests: XCTestCase {
         5 15 10
         25 0 10
         """
-        
         var matrix = Matrix<Int>(string)!
         let resultMatrix = Matrix<Int>(result)!
         
@@ -514,7 +446,6 @@ class MatrixTests: XCTestCase {
         -3 -2 -7 -6
         8 -4 -5 -2
         """
-        
         let matrix = Matrix<Int>(string)!
         let resultMatrix = Matrix<Int>(result)!
 
@@ -535,14 +466,19 @@ class MatrixTests: XCTestCase {
         1 4
         -8 2
         """
-        
         let matrix = Matrix<Int>(string)!
         let resultMatrix1 = Matrix<Int>(result1)!
         let resultMatrix2 = Matrix<Int>(result2)!
 
         XCTAssertEqual(matrix.makeMatrixChoosing(rows: [1, 2], columns: [3, 0, 2]), resultMatrix1)
         XCTAssertEqual(matrix.makeMatrixChoosing(rows: [2, 0], columns: [0, 3]), resultMatrix2)
-        XCTAssertNil(matrix.makeMatrixChoosing(rows: [0, 3], columns: [0, 4])) //out of range test
+        
+        // Edge cases
+        XCTAssertNil(matrix.makeMatrixChoosing(rows: [], columns: [1, 3]))
+        XCTAssertNil(matrix.makeMatrixChoosing(rows: [0, 1], columns: []))
+        
+        XCTAssertNil(matrix.makeMatrixChoosing(rows: [0, 1], columns: [0, 4]))
+        XCTAssertNil(matrix.makeMatrixChoosing(rows: [0, 3], columns: [0, 2]))
     }
     
     func testMakeMatrixCrosingOffRowsAndColumns() {
@@ -568,7 +504,6 @@ class MatrixTests: XCTestCase {
         1 5
         21 25
         """
-        
         let matrix = Matrix<Int>(string)!
         let resultMatrix1 = Matrix<Int>(result1)!
         let resultMatrix2 = Matrix<Int>(result2)!
@@ -577,7 +512,13 @@ class MatrixTests: XCTestCase {
         XCTAssertEqual(matrix.makeMatrixRemoving(rows: [0], columns: [1]), resultMatrix1)
         XCTAssertEqual(matrix.makeMatrixRemoving(rows: [3, 1], columns: [1, 3]), resultMatrix2)
         XCTAssertEqual(matrix.makeMatrixRemoving(rows: [3, 1, 2], columns: [1, 3, 2]), resultMatrix3)
-        XCTAssertNil(matrix.makeMatrixRemoving(rows: [0, 5], columns: [0, 5])) // out of range
+        
+        // Edge cases
+        XCTAssertNil(matrix.makeMatrixRemoving(rows: [0, 5], columns: [0, 2]))
+        XCTAssertNil(matrix.makeMatrixRemoving(rows: [0, 1, 2], columns: [0, 6]))
+        
+        XCTAssertNil(matrix.makeMatrixRemoving(rows: [], columns: [0, 2]))
+        XCTAssertNil(matrix.makeMatrixRemoving(rows: [0, 1, 2], columns: []))
     }
     
     func testDeterminant() {
@@ -606,7 +547,6 @@ class MatrixTests: XCTestCase {
         1 2 3
         4 5 6
         """
-        
         let matrixInt1 = Matrix<Int>(stringInt1)!
         let matrixInt2 = Matrix<Int>(stringInt2)!
         let matrixDouble = Matrix<Double>(stringDouble)!
@@ -630,7 +570,6 @@ class MatrixTests: XCTestCase {
         1 2 3
         4 7 8
         """
-        
         let nonDegenerateMatrix = Matrix<Int>(nonDegenerate)!
         let degenerateMatrix = Matrix<Int>(degenerate)!
         
@@ -656,7 +595,6 @@ class MatrixTests: XCTestCase {
         3 2 4 5
         1 2 3 5
         """
-        
         let symmetricMatrix = Matrix<Int>(symmetric)!
         let nonSymmetricMatrix = Matrix<Int>(nonSymmetric)!
         let nonSquareMatrix = Matrix<Int>(nonSquare)!
@@ -684,7 +622,6 @@ class MatrixTests: XCTestCase {
         3 2 4 5
         1 2 3 5
         """
-        
         let antisymmetricMatrix = Matrix<Int>(antisymmetric)!
         let nonAntisymmetricMatrix = Matrix<Int>(nonAntisymmetric)!
         let nonSquareMatrix = Matrix<Int>(nonSquare)!

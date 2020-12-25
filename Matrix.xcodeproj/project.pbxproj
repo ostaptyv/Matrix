@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		527EECC52295EAFD0029D52C /* MatrixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527EECC42295EAFD0029D52C /* MatrixTests.swift */; };
+		527EECC52295EAFD0029D52C /* MainTestSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527EECC42295EAFD0029D52C /* MainTestSuite.swift */; };
 		527EECC72295EAFD0029D52C /* Matrix.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EC8F66226F0DE00078FB23 /* Matrix.framework */; };
 		52EC8F6B226F0DE00078FB23 /* Matrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 52EC8F69226F0DE00078FB23 /* Matrix.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52EC8F72226F0DF30078FB23 /* Matrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EC8F71226F0DF30078FB23 /* Matrix.swift */; };
@@ -16,6 +16,8 @@
 		52EC8F78226F0E0C0078FB23 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EC8F76226F0E0C0078FB23 /* Double.swift */; };
 		84B38B6B252A041E007D9226 /* StringInitializerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B38B6A252A041E007D9226 /* StringInitializerService.swift */; };
 		84B38B70252A0A1A007D9226 /* StringDescriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B38B6F252A0A1A007D9226 /* StringDescriptionService.swift */; };
+		84FBE4D925956BA200B35DC1 /* ArrayInitTestSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBE4D825956BA200B35DC1 /* ArrayInitTestSuite.swift */; };
+		84FBE4DD25956BC200B35DC1 /* LosslessStringConvertibleTestSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FBE4DC25956BC200B35DC1 /* LosslessStringConvertibleTestSuite.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,7 +32,7 @@
 
 /* Begin PBXFileReference section */
 		527EECC22295EAFD0029D52C /* MatrixTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MatrixTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		527EECC42295EAFD0029D52C /* MatrixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixTests.swift; sourceTree = "<group>"; };
+		527EECC42295EAFD0029D52C /* MainTestSuite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTestSuite.swift; sourceTree = "<group>"; };
 		527EECC62295EAFD0029D52C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52EC8F66226F0DE00078FB23 /* Matrix.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Matrix.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52EC8F69226F0DE00078FB23 /* Matrix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Matrix.h; sourceTree = "<group>"; };
@@ -41,6 +43,8 @@
 		52EC8F76226F0E0C0078FB23 /* Double.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
 		84B38B6A252A041E007D9226 /* StringInitializerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringInitializerService.swift; sourceTree = "<group>"; };
 		84B38B6F252A0A1A007D9226 /* StringDescriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringDescriptionService.swift; sourceTree = "<group>"; };
+		84FBE4D825956BA200B35DC1 /* ArrayInitTestSuite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayInitTestSuite.swift; sourceTree = "<group>"; };
+		84FBE4DC25956BC200B35DC1 /* LosslessStringConvertibleTestSuite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LosslessStringConvertibleTestSuite.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,7 +70,9 @@
 			isa = PBXGroup;
 			children = (
 				527EECC62295EAFD0029D52C /* Info.plist */,
-				527EECC42295EAFD0029D52C /* MatrixTests.swift */,
+				527EECC42295EAFD0029D52C /* MainTestSuite.swift */,
+				84FBE4D825956BA200B35DC1 /* ArrayInitTestSuite.swift */,
+				84FBE4DC25956BC200B35DC1 /* LosslessStringConvertibleTestSuite.swift */,
 			);
 			path = MatrixTests;
 			sourceTree = "<group>";
@@ -245,7 +251,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				527EECC52295EAFD0029D52C /* MatrixTests.swift in Sources */,
+				84FBE4DD25956BC200B35DC1 /* LosslessStringConvertibleTestSuite.swift in Sources */,
+				84FBE4D925956BA200B35DC1 /* ArrayInitTestSuite.swift in Sources */,
+				527EECC52295EAFD0029D52C /* MainTestSuite.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
